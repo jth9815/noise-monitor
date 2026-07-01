@@ -1,0 +1,50 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: JDK 17 설치
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Gradle 캐시
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ hashFiles('**/*.gradle*') }}
+
+      - name: Gradle 설치
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.4'
+
+      - name: Debug APK 빌드
+        run: gradle assembleDebug --no-daemon
+
+      - name: Release 생성 및 APK 업로드
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: "빌드 #${{ github.run_number }}"
+          body: |
+            📱 설치 방법
+            1. 아래 app-debug.apk 다운로드
+            2. 폰에서 열기
+            3. 출처를 알 수 없는 앱 허용 후 설치
+          files: app/build/outputs/apk/debug/app-debug.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
