@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#3b82f6</item>
+        <item name="colorPrimaryVariant">#6366f1</item>
+        <item name="colorOnPrimary">#ffffff</item>
+        <item name="android:windowBackground">#0a0a0f</item>
+        <item name="android:statusBarColor">#0a0a0f</item>
+        <item name="android:navigationBarColor">#0a0a0f</item>
+        <item name="editTextStyle">@style/EditTextStyle</item>
+    </style>
+
+    <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">#e8e8f0</item>
+        <item name="android:textColorHint">#333344</item>
+        <item name="android:backgroundTint">#2a2a3e</item>
+    </style>
+</resources>
