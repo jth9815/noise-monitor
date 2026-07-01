@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0a0a0f"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- 헤더 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📋 소음 증거 수집기"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#f0f0ff"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="아파트 앞 도로 소음 자동 감지 · 분류 · 저장"
+            android:textSize="12sp"
+            android:textColor="#666680"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- API 키 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#12121a"
+            android:padding="16dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔑 Anthropic API 키"
+                android:textSize="13sp"
+                android:textColor="#888899"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/etApiKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="sk-ant-..."
+                android:textColorHint="#333344"
+                android:textColor="#e8e8f0"
+                android:background="#0a0a0f"
+                android:textSize="13sp"
+                android:padding="10dp"
+                android:inputType="textPassword"
+                android:singleLine="true"/>
+        </LinearLayout>
+
+        <!-- 저장 대상 필터 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#12121a"
+            android:padding="16dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🎯 저장할 발생원 (미선택 시 전체 저장)"
+                android:textSize="13sp"
+                android:textColor="#888899"
+                android:layout_marginBottom="10dp"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/llFilterButtons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <!-- 녹취 장소 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#12121a"
+            android:padding="16dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📍 녹취 장소"
+                android:textSize="13sp"
+                android:textColor="#888899"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/etLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="예: 서울시 ○○구 ○○로 ○○아파트 앞"
+                android:textColorHint="#333344"
+                android:textColor="#e8e8f0"
+                android:background="#0a0a0f"
+                android:textSize="13sp"
+                android:padding="10dp"
+                android:singleLine="true"/>
+        </LinearLayout>
+
+        <!-- dB 미터 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#12121a"
+            android:padding="16dp"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="현재 소음"
+                    android:textSize="13sp"
+                    android:textColor="#888899"/>
+
+                <TextView
+                    android:id="@+id/tvPeakDb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="최고 0 dB"
+                    android:textSize="13sp"
+                    android:textColor="#f97316"
+                    android:layout_marginEnd="12dp"/>
+
+                <TextView
+                    android:id="@+id/tvDb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 dB"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#e8e8f0"/>
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progressDb"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:max="100"
+                android:progress="0"
+                android:progressTint="#3b82f6"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- 임계값 슬라이더 -->
+            <TextView
+                android:id="@+id/tvThreshold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="감지 임계값: 80 dB"
+                android:textSize="13sp"
+                android:textColor="#888899"
+                android:layout_marginBottom="6dp"/>
+
+            <SeekBar
+                android:id="@+id/seekThreshold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="45"
+                android:progress="30"
+                android:progressTint="#f97316"
+                android:thumbTint="#f97316"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="50 dB"
+                    android:textSize="10sp"
+                    android:textColor="#444455"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="95 dB"
+                    android:textSize="10sp"
+                    android:textColor="#444455"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 시작/중지 버튼 -->
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="🎙️ 녹음 시작"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:backgroundTint="#3b82f6"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- 상태 -->
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="대기 중"
+            android:textSize="13sp"
+            android:textColor="#666680"
+            android:background="#12121a"
+            android:padding="12dp"
+            android:layout_marginBottom="14dp"/>
+
+        <!-- 클립 목록 헤더 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="저장된 클립"
+                android:textSize="14sp"
+                android:textColor="#888899"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvClipCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="12sp"
+                android:textColor="#444455"/>
+        </LinearLayout>
+
+        <!-- 클립 목록 -->
+        <ScrollView
+            android:id="@+id/scrollClips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false">
+
+            <LinearLayout
+                android:id="@+id/llClips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+        </ScrollView>
+
+        <View android:layout_width="match_parent" android:layout_height="40dp"/>
+
+    </LinearLayout>
+</ScrollView>
